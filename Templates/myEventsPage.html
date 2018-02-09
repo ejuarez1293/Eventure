@@ -1,0 +1,50 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+ <link rel="stylesheet" href="{% static 'css/myeventspage.css' %}"/>
+
+<body>
+<h2>Hosting Events</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="table-responsive" table style="background-color: whitesmoke">
+        <table summary="" class="table table-bordered table-hover">
+
+      {% for event in allEvents %}
+        <thead>
+            <tr>
+              <th>Date</th>
+              <th>Event</th>
+              <th>Time</th>
+              <th>ID</th>
+              <th>Host</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{event.date}}</td>
+                <td> <a href="event/{{event.id}}" target="_blank">{{event}}</a></td>
+              <td>{{event.time}}</td>
+              <td>{{event.id}}</td>
+              <td>{{currentUser}}</td>
+            </tr>
+
+          </tbody>
+              {% endfor %}
+          <tfoot>
+          </tfoot>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+.itemTable{
+     padding: 8px;
+}
+
+.inviteTable{
+    padding: 8px;
+}
+
+#invitee-item-button{
+    margin:8px;
+}
+
+#add-item-button{
+    margin:8px;
+}
+
+.NavButtons{
+    margin: 4px 8px 8px 8px;
+}
+#email{
+    float: right;
+}
+
+.emptyForm{
+    display:none;
+}
+.errorForm{
+    box-shadow: 0 0 10px #d45252;
+    border-color: red;
+
+}
+
+
+input.form-control {
+  width: auto;
+}
+
+.itemAmountInput.form-control{
+    width: 50px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.table {
+    border-top: hidden;
+}

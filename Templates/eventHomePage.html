@@ -1,0 +1,163 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your event</title>
+    <link rel="stylesheet" href="{% static 'css/eventHomePage.css' %}"/>
+</head>
+<body>
+
+
+    <div class="container" id="wrap1">
+        <div id="photo" class="container" style="float:left">
+                {% if currentEvent.eventPhoto %}
+                <div >
+                    <a target="_blank" href="{{currentEvent.eventPhoto.url}}">
+                        <img class ="img-fluid" id = "eventPhoto" src ="{{currentEvent.eventPhoto.url}}">
+                    </a>
+                </div>
+                {% endif %}
+
+            <p>Hosted by {{ currentEvent.userProfile}}</p>
+            <button type="button" class="btn btn-info btn-lg">Chip In</button>
+
+        </div>
+        <div id="info" class="container" style="float:left">
+            <h2>{{ currentEvent.name }}</h2>
+            <p>Location: {{ currentEvent.location}}</p>
+            <p>Mapping:
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eventure Maps</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 50%; width: 50%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="floating-panel">
+      <input id="address" type="textbox" value="UTSA" >
+      <script>
+          var addy = "<p>{{currentEvent.Location}}}</p>"
+        //  document.write(addy);
+         // document.getElementById("address").value = addy;
+      </script>
+
+      <input id="submit" type="button" value="Display Passed Address Test">
+    </div>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: {lat: 29.424122, lng: -98.493629}
+        });
+        var geocoder = new google.maps.Geocoder();
+
+          geocodeAddress(geocoder, map);
+
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvBaddkYZovndoQ4dsdABoMiY6nlNOjqw&callback=initMap">
+    </script>
+  </body>
+</html>
+
+
+
+            </p>
+            <p>Date: {{ currentEvent.date }}</p>
+            <p>Time: {{ currentEvent.time }}</p>
+        </div>
+        <div id="buttonStuff" style="float:left">
+
+            {% if currentEvent.type == 'False' %}
+                <h3>Want to attend?</h3>
+            <button type="button" class="btn btn-primary btn-lg">RSVP</button>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="container" id="wrap" style="position: relative">
+        <div class="container" id="eventContent" style="float:left">
+            <h4>Description</h4>
+            <p>{{ currentEvent.description }}</p>
+        </div>
+        <div id = "guests" style="overflow: scroll; float: right">
+            <h2>Who's Going</h2>
+
+                {% for guest in guests %}
+                    <div class="media">
+                        <!---<img class="d-flex mr-3" data-src="holder.js/64x64?theme=sky" alt="Generic placeholder image">-->
+                        <div class="media-body">
+                            <h5 class="mt-0">{{guest.attendeeName}}</h5>
+
+                            {% for item in guest.items.all %}
+                               <!--- <li>{{ item.name }}</li>-->
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                {%  endfor %}
+
+        </div>
+        <div id ="bringing">
+            <h4>What to bring</h4>
+            {% for item in items %}
+                <p>{{ item.name }}</p>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+</body>

@@ -1,0 +1,75 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your event</title>
+    <link rel="stylesheet" href="{% static 'css/eventHomePage.css' %}"/>
+</head>
+<body>
+
+    <div class="container" style="padding-left: 80%";>
+    <h3><a href="{{ request.path}}edit" class="btn btn-info" role="button">Edit Your Event</a></h3>
+
+    </div>
+    <div class="container" id="wrap1">
+        <div id="photo" class="container" style="float:left">
+                {% if currentEvent.eventPhoto %}
+                <div >
+                    <a target="_blank" href="{{currentEvent.eventPhoto.url}}">
+                        <img class ="img-fluid" id = "eventPhoto" src ="{{currentEvent.eventPhoto.url}}">
+                    </a>
+                </div>
+                {% endif %}
+            <p>Hosted by {{ currentEvent.userProfile}}</p>
+            <button type="button" class="btn btn-info btn-lg">Chip In</button>
+
+        </div>
+        <div id="info" class="container" style="float:left">
+            <h2>{{ currentEvent.name }}</h2>
+            <p>Location: {{ currentEvent.location}}</p>
+            <p>Date: {{ currentEvent.date }}</p>
+            <p>Time: {{ currentEvent.time }}</p>
+        </div>
+    </div>
+
+
+    <div class="container" id="wrap" style="position: relative">
+        <div class="container" id="eventContent" style="float:left">
+            <h4>Description</h4>
+            <p>{{ currentEvent.description }}</p>
+        </div>
+        <div id = "guests" style="overflow: scroll; float: right">
+            <h2>Who's Going</h2>
+
+                {% for guest in guests %}
+                    <div class="media">
+                        <!---<img class="d-flex mr-3" data-src="holder.js/64x64?theme=sky" alt="Generic placeholder image">-->
+                        <div class="media-body">
+                            <h5 class="mt-0">{{guest.attendeeName}}</h5>
+
+                            {% for item in guest.items.all %}
+                               <!--- <li>{{ item.name }}</li>-->
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                {%  endfor %}
+
+        </div>
+        <div id ="bringing">
+            <h4>What to bring</h4>
+            {% for item in items %}
+                <p>{{ item.name }} x {{ item.amount }}</p>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
+</body>

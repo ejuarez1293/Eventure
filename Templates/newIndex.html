@@ -1,0 +1,118 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/newIndex.css' %}"/>
+
+
+</head>
+<body>
+
+<div class='container'>
+
+    <h3 id="publicEventsLabel">Upcoming Public Events</h3>
+
+    <div id="slickBoarder">
+        <div class='single-item'>
+            <div>
+                <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                    {% for event in publicEvents %}
+                    <div class="card card-inverse card-info">
+                        {% if event.eventPhoto %}
+                        <img class="card-img-top" src="{{event.eventPhoto.url}}">
+                        {% endif %}
+                        <div class="card-block">
+                            <h4 class="card-title">{{event.name}}</h4>
+                            <div class="card-text">
+                                <b>Host : </b>{{event.userProfile}}<br>
+                                <b>Location : </b>{{event.location}}<br>
+                                <b>Date : </b>{{event.date}}<br>
+                                <b>Time : </b>{{event.time}}<br>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="event/{{event.id}}" class="btn btn-info btn-sm">View Event </a>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:4  and forloop.counter != publicEvents.count%}
+            </div>
+            <div>
+                {% endif %}
+                <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+ <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-3">Eventure</h1>
+    <p class="lead">Eventure is a website that lets you get together without people and plan events like
+        never before. Just create and account and start invite people. The people you invite will get an email
+        telling them about the event you created and instantly RSVP. <b>No sign up required</b>. If you
+        create a list of items they can sign up to bring those items, even without an account!</p>
+      <p>
+          <img class="eventurePic" src="{{media_url}}createEvent.png">
+      </p>
+
+      <p>
+          <img class="eventurePic" src="{{media_url}}inviteGuests.png">
+      </p>
+
+      <p>
+          <img class="eventurePic" src="{{media_url}}createItems.png">
+      </p>
+
+  </div>
+</div>
+
+</div>
+
+
+<script src="{% static 'scripts/slick.min.js' %}"></script>
+<script>
+    var $mainButton = $(".main-button"),
+        $closeButton = $(".close-button"),
+        $buttonWrapper = $(".button-wrapper"),
+        $ripple = $(".ripple"),
+        $layer = $(".layered-content");
+
+    $mainButton.on("click", function(){
+        $ripple.addClass("rippling");
+        $buttonWrapper.addClass("clicked").delay(1500).queue(function(){
+            $layer.addClass("active");
+        });
+    });
+
+    $closeButton.on("click", function(){
+        $buttonWrapper.removeClass("clicked");
+        $ripple.removeClass("rippling");
+        $layer.removeClass("active");
+    });
+
+    $(document).ready(function(){
+
+        $(".single-item").slick({
+            arrows: false,
+            infinite: true,
+            slidesToShow: 1,
+            dots : false,
+            autoplay: true,
+            autoplaySpeed: 7000
+
+        });
+    });
+</script>
+
+</body>
+
+</html>
+
+{% endblock %}

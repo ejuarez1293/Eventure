@@ -1,0 +1,47 @@
+#registerForm{
+    width: 400px ;
+    margin-top: 20px;
+    /*border-style: solid;
+    border-color: blueviolet;*/
+    margin-left: 200px;
+
+}
+
+
+#createAccount{
+   /* border-style: solid;
+    border-color: yellow;*/
+
+}
+#socialLinks{
+   /* border-style: solid;
+    border-color: red;*/
+    margin-bottom: 100px;
+    margin-top: 100px;
+    margin-right: 200px;
+
+}
+#logIn{
+    align-content: center;
+    /*border-style: solid;
+    color: #0f4bac;*/
+}
+
+#form input {
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 80%;
+}
+
+#logInText{
+    color: #0f4bac;
+}
+#wrap{
+    /*border-style: solid;
+    border-color: green;*/
+}
+#footer{
+    margin-top: 100px;
+
+}

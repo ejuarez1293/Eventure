@@ -1,0 +1,93 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <!DOCTYPE html>
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/registrationPage.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap-social.css' %}"/>
+</head>
+
+<body>
+
+     <div>
+
+      {% if registered %}
+        <h1>Thank you for registering!</h1>
+      {% else %}
+          <div><h1 id="createAccount" style="display:flex;justify-content:center;align-items:center;">Create A Free Account</h1></div>
+          <div class="container" id="wrap" style="position:relative;">
+            <div id="registerForm" class="container" style="float:left;">
+
+             <!--<h3>Just fill out the form.</h3>-->
+                <form enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    <div id ="form">
+                        <div id="username">
+                        <label>Username</label>
+                        <p>{{ user_form.username }} </p>
+                        </div>
+                        <div id="email">
+                        <label>Email Address</label>
+                        <p> {{ user_form.email }} </p>
+                    </div>
+                        <div id="password">
+                        <label>Password</label>
+                        <p>{{ user_form.password }} </p>
+                    </div>
+                        <div id="fname">
+                        <label>Fist Name</label>
+                        <p>{{ user_profile_form.firstName }} </p>
+                    </div>
+
+                    <div id="lname">
+                        <label>Last Name</label>
+                        <p>{{ user_profile_form.lastName }} </p>
+                    </div>
+
+                    <div id="city">
+                        <label>City</label>
+                        <p>{{ user_profile_form.city }} </p>
+                    </div>
+
+                    <div id="state">
+                        <label>State</label>
+                        <p>{{ user_profile_form.state }} </p>
+                    </div>
+
+                    <div id="zip">
+                        <label>Zip</label>
+                        <p>{{ user_profile_form.zip }} </p>
+                    </div>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="Join now" style="width: 100%">
+
+            </form>
+        </div>
+
+
+
+
+    <div id="socialLinks" style="float:right;">
+        <h3>Connect an Account</h3>
+        <ul>
+            <li>Import Connections</li>
+            <li>One click Log In</li>
+        </ul>
+
+        <div><p style="width: 270px"><a class="btn btn-block btn-social btn-facebook"><span class="fa fa-facebook"></span>Sign in with Facebook</a></p></div>
+        <div><p style="width: 270px"><a class="btn btn-block btn-social btn-twitter"><span class="fa fa-twitter"></span> Sign in with Twitter</a></p></div>
+        <div><p style="width: 270px"><a class="btn btn-block btn-social btn-google"><span class="fa fa-google"></span> Sign in with Google</a></p></div>
+        <p id="alreadyLogIn">Already have an account <a href={% url 'userLogin' %} id="logInText">Log in</a></p>
+    </div>
+
+</div>
+<div><p id="footer">Copyright @Eventure</p></div>
+     </div>
+{% endif %}
+</body>
+{% endblock %}

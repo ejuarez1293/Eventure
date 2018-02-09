@@ -1,0 +1,21 @@
+{%extendes Base.html%}
+{% load staticfiles %}
+
+{%block body_block%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eventure Invitation</title>
+    <link rel="stylesheet" href="{% static 'css/eventDisplay.css' %}"/>
+</head>
+
+<div class="container" id="wrap">
+	<p>
+		Hello, you have been invited to
+		and event.
+	</p>
+</div>
+
+</html>
+
+{%endblock%}

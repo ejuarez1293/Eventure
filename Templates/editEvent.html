@@ -1,0 +1,220 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your event</title>
+    <link rel="stylesheet" href="{% static 'css/eventHomePage.css' %}"/>
+</head>
+<body>
+<br>
+<!-- Item List Template -->
+<script type="text/html" id="item-template">
+    <tr>
+        <th width="8%" scope="row">
+            <a href="#" class="btn btn-info btn-block modifyItemList deleteElement">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+
+             <a href="#" style="display: none" class="btn btn-info btn-block
+             modifyItemList redoElement">
+
+                <i class="fa fa-undo"></i>
+            </a>
+        </th>
+        <td id="item-__prefix__" class ="tableItemName">
+            {{ itemCreationFormset.empty_form.itemName }}
+        </td>
+        <td id="item-__prefix__" class="tableItemAmount">
+            {{ itemCreationFormset.empty_form.amount }}
+        </td>
+    </tr>
+</script>
+
+<!-- Invite List Template -->
+<script type="text/html" id="invitee-template">
+    <div id="invitee-__prefix__">
+        {{ inviteToEventFormset.empty_form.email }}
+    </div>
+</script>
+
+
+
+<form enctype="multipart/form-data" method="POST" id="edit">
+
+    {% csrf_token %}
+       <div class="container" style="padding-left: 80%";>
+      <input type="submit" value="Save Changes" class="btn btn-info">
+    </div>
+    <div class="container" id="wrap1">
+        <div id="photo" class="container" style="float:left">
+                {% if currentEvent.eventPhoto %}
+                <div >
+                    <a target="_blank" href="{{currentEvent.eventPhoto.url}}">
+                        <img class ="img-fluid" id = "eventPhoto" src ="{{currentEvent.eventPhoto.url}}">
+                    </a>
+                </div>
+                {% endif %}
+            <p>{{ form.eventPhoto }}</p>
+
+
+        </div>
+        <div id="info" class="container" style="float:left">
+            <h2>{{ form.name }}</h2>
+            <p id="location">Location: {{ form.location }}</p>
+            <p id="date">Date: {{ form.date }}</p>
+            <p id="time">Time: {{ form.time }}</p>
+            <p id="category">Category: {{ form.eventCategory }}</p>
+            <p>{{ form.type }}</p>
+        </div>
+
+
+
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <div class="container" id="wrap" style="position: relative">
+        <div class="container" id="eventContent" style="float:left">
+            <h4>Description</h4>
+            <p id="description">{{ form.description }}</p>
+        </div>
+        <div id = "guests" style="overflow: scroll; float: right">
+            <h2>Who's Going</h2>
+
+                {% for guest in guests %}
+                    <div class="media">
+                        <!---<img class="d-flex mr-3" data-src="holder.js/64x64?theme=sky" alt="Generic placeholder image">-->
+                        <div class="media-body">
+                            <h5 class="mt-0">{{guest.attendeeName}}</h5>
+                        </div>
+
+                    </div>
+
+                {%  endfor %}
+            <h2>Who's invited</h2>
+                {% for attendee in invited%}
+                    <div class="media">
+                        <!---<img class="d-flex mr-3" data-src="holder.js/64x64?theme=sky" alt="Generic placeholder image">-->
+                        <div class="media-body">
+                            <h5 class="mt-0">{{attendee}}</h5>
+                        </div>
+
+                    </div>
+
+                {%  endfor %}
+
+            {{ inviteToEventFormset.management_form }}
+            <div id="invitees-form-container">
+                {% for invitee in inviteToEventFormset %}
+                    <div id="invitee-{{ forloop.counter0 }}" class="inviteTable">
+                        {{ invitee.as_table }}
+                    </div>
+                {% endfor %}
+            </div>
+
+                <a href="#" id="invitee-item-button" class="btn btn-info add-invitee">Add Invitee</a>
+        </div>
+        <div id ="bringing">
+
+            <h4>Your Items Requested</h4>
+            <table class="table table-sm itemTable">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="padding-left: 25px" >Item</th>
+                  <th style="padding-left: 25px" >Amount</th>
+                </tr>
+              </thead>
+                <tbody>
+                {% for item in itemForm %}
+                <tr >
+                    <th width="8%" scope="row">
+                        <a href="#" class="btn btn-info btn-block modifyItemList deleteElement">
+                          <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                         <a href="#" style="display: none" class="btn btn-info btn-block
+                         modifyItemList redoElement">
+
+                            <i class="fa fa-undo"></i>
+                        </a>
+                    </th>
+                    <td class="tableItemName">{{ item.name }}</td>
+                    <td class="tableItemAmount">{{ item.amount }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <hr>
+
+
+
+
+            <!-- Item formset to add additional items -->
+            {{ itemCreationFormset.management_form }}
+            <h4>Add items</h4>
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="padding-left: 25px" >Item</th>
+                  <th style="padding-left: 25px" >Amount</th>
+                </tr>
+              </thead>
+                <tbody id="items-form-container" class="itemTable">
+
+                        {% for items in itemCreationFormset %}
+                        <tr>
+                        <th width="8%" scope="row" class="buttonHeader">
+                            <a href="#" class="btn btn-info btn-block modifyItemList deleteElement">
+                              <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+
+                             <a href="#" style="display: none" class="btn btn-info btn-block
+                             modifyItemList redoElement">
+
+                                <i class="fa fa-undo"></i>
+                            </a>
+                        </th>
+
+
+
+
+                        <td id="item-{{ forloop.counter0 }}" class="itemTable tableItemName">
+                                {{ items.itemName }}
+                            </td>
+                            <td id="item-{{ forloop.counter0 }}" class="itemTable tableItemAmount">
+                                {{ items.amount }}
+                            </td>
+                            </tr>
+                        {% endfor %}
+
+                </tbody>
+            </table>
+
+
+            <!--{{ itemCreationFormset.management_form }}
+            <div id="items-form-container" class="itemTable">
+                {% for items in itemCreationFormset %}
+                    <div id="item-{{ forloop.counter0 }}" class="itemTable ">
+                        {{ items }}
+                    </div>
+                {% endfor %}
+            </div>
+            -->
+            <a href="#" id="add-item-button" class="btn btn-info add-item">Add Additional Items</a>
+
+
+        </div>
+    </div>
+
+    <div id="footer"><p></p></div>
+
+</form>
+<script src="{% static 'scripts/editEvent.js' %}"></script>
+{% endblock %}
+</body>

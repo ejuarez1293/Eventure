@@ -1,0 +1,70 @@
+#wrap{
+   /* border-style: solid;
+    border-color: blueviolet;*/
+}
+#wrap1{
+   /* border-style: solid;
+    border-color: orange;*/
+}
+#photo{
+   /* border-style: solid;
+    border-color: #e22444;*/
+    width: 20%;
+    height: 300px;
+    margin-left: -10px;
+}
+
+#info{
+    /*border-style: solid;
+    border-color: green;*/
+    width: 60%;
+    height: 300px;
+
+}
+
+#guests{
+    /*border-style: solid;
+    border-color: yellow;*/
+    width: 20%;
+    margin-left: 10%;
+    overflow:auto;
+
+}
+.element::-webkit-scrollbar { width: 0 !important }
+#eventContent{
+   /* border-style: solid;
+    border-color: saddlebrown;*/
+    width: 70%;
+    height: 300px;
+    margin-top: 20px;
+    overflow: auto;
+    word-wrap: break-word;
+    text-overflow: ellipsis; // This is where the magic happens
+
+}
+#footer{
+    height: 50px;
+    width: 100%;
+    /*border-style: solid;
+    border-color: black;*/
+}
+#bringing{
+    margin-top: 30%;
+    /*border-style: solid;
+    border-color: deeppink;*/
+    width: 70%;
+    height: 200px;
+}
+
+#buttonStuff{
+   /* border-style: solid;
+    border-color: greenyellow;*/
+    margin-top: 15%;
+}
+
+#eventPhoto{
+    /*border-style: solid;
+    border-color: black;*/
+    width: 200px;
+    height: 200px;
+}

@@ -1,0 +1,99 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Event</title>
+    <link rel="stylesheet" href="{% static 'css/createEvent.css' %}"/>
+
+</head>
+<body>
+
+<script type="text/html" id="item-template">
+    <div id="item-__prefix__">
+        {{ itemCreationFormset.empty_form }}
+    </div>
+</script>
+
+<script type="text/html" id="invitee-template">
+    <div id="invitee-__prefix__">
+        {{ inviteToEventFormset.empty_form }}
+    </div>
+</script>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#EventInfo">Event Info</a></li>
+    <li><a data-toggle="tab" href="#inviteList">Invite List</a></li>
+    <li><a data-toggle="tab" href="#itemList">Item List</a></li>
+</ul>
+
+
+<form enctype="multipart/form-data" method="POST" id="SigningUp">
+    <div class="tab-content">
+        {% csrf_token %}
+
+        <!-- First Tab -->
+        <div id="EventInfo" class="tab-pane fade in active">
+            <table class="table">
+                    {{ eventForm.as_table }}
+            </table>
+            <br/>
+            <div id="NavButtons">
+                <a class="btn btn-primary btnNext">Next</a>
+            </div>
+        </div>
+
+        <!-- Second Tab -->
+        <div id="inviteList" class="tab-pane fade">
+            <h3>Who would you like to invite?</h3>
+            <!-- InviteList management_form -->
+            {{ inviteToEventFormset.management_form }}
+            <div id="invitees-form-container">
+                {% for invitee in inviteToEventFormset %}
+                    <div id="invitee-{{ forloop.counter0 }}" class="inviteTable">
+                        {{ invitee.as_table }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="NavButtons">
+                <a class="btn btn-primary btnPrevious">Previous</a>
+                <a href="#" id="invitee-item-button" class="btn btn-info add-invitee">Add Invitee</a>
+                <a class="btn btn-primary btnNext">Next</a>
+            </div>
+        </div>
+
+        <!-- Third Tab -->
+        <div id="itemList" class="tab-pane fade">
+            <!-- ItemList management_form -->
+            {{ itemCreationFormset.management_form }}
+            <h3>What would you like people to bring?</h3>
+            <div id="items-form-container" class="itemTable">
+                {% for items in itemCreationFormset %}
+                    <div id="item-{{ forloop.counter0 }}" class="itemTable ">
+                        {{ items }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="NavButtons">
+                <a class="btn btn-primary btnPrevious">Previous</a>
+                <a href="#" id="add-item-button" class="btn btn-info add-item">Add Item</a>
+                <br/>
+                <input id="submitButton" type="submit" class="btn btn-warning" value="Create Event">
+            </div>
+
+
+        </div>
+    </div>
+</form>
+<script src="{% static 'scripts/createEvent.js' %}"></script>
+{% endblock %}
+
+</body>
+</html>

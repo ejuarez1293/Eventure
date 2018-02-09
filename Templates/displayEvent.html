@@ -1,0 +1,107 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your event</title>
+    <link rel="stylesheet" href="{% static 'css/eventDisplay.css' %}"/>
+</head>
+<body>
+</body>
+<!-- http://127.0.0.1:8000/event/11112222333300000000 -->
+<div class="container" id="wrap">
+    <div id="photo" class="container">
+        {%if eventInfo.eventPhoto%}
+        <div >
+            <a target="_blank" href="{{eventInfo.eventPhoto.url}}">
+                <img class ="img-fluid" id = "eventPhoto" src ="{{eventInfo.eventPhoto.url}}">
+            </a>
+        </div>
+        {%endif%}
+            <p>Hosted by {{ eventInfo.userProfile}}</p>
+            <button type="button" class="btn btn-info btn-lg">Chip In</button>
+    </div>
+    <div id="info" class="container">
+        <h2>{{ eventInfo.name }}</h2>
+        <p>Attendee : {{attendee.email}}</p>
+        <p>You are currently {{rsvpStatus}}</p>
+        <p>Location: <a href="https://www.google.com/maps/search/?api=1&{{address}}" target="_blank">{{eventInfo.location}}</a></p>
+        <p>Date: {{ eventInfo.date }}</p>
+        <p>Time: {{ eventInfo.time }}</p>
+    </div>
+    <div class="container" id="rsvp_container">
+        <h3 style="text-align:center">Want to attend?</h3>
+        <div class="container" id="rsvp_button">
+            <form enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary btn-lg" id="rsvp_button" name="ATTENDING" value="Count me in!" >
+                <input type="submit" class="btn btn-primary btn-lg" id="rsvp_button" name="MAYBE" value="Maybe" >
+                <input type="submit" class="btn btn-primary btn-lg" id="rsvp_button" name="NOTATTENDING" value="no rsvp, thank you!" >
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="wrap">
+    <div class="container" id="eventContent">
+        <h4>Description</h4>
+        <p>{{ eventInfo.description }}</p>
+    </div>
+    <div class="container">
+        <div class="container" id = "guests" >
+            <h2>Who's Going</h2>
+            {% for guest in guests %}
+            <div class="media">
+                <!---<img class="d-flex mr-3" data-src="holder.js/64x64?theme=sky" alt="Generic placeholder image">-->
+                <div class="media-body">
+                    <h5 class="mt-0">{{guest.attendeeName}}</h5>
+                </div>
+            </div>
+            {%  endfor %}
+        </div>
+    </div>
+    <form enctype="multipart/form-data" method="POST" id="SigningUp">
+    {% csrf_token %}
+    <div class="container" id="bringing">
+
+        <h2>Needed</h2>
+
+        {% for item1, item2 in itemFormTuple %}
+            {% if forloop.counter|divisibleby:4 %}
+                <div class="row">
+            {% endif %}
+
+                <div class="wrapper col-sm-3">
+                    <div class="card">
+                        <div class="card__title">{{ item1.name }}</div>
+                        <div class="card__description"> {{item2}} </div>
+
+                        <div class="cardbottom cardbottom--fontforeground clearfix">
+                            <div class="one-third">
+                                <div class="value">{{item1.amountTaken}}</div>
+                                <div class="valuedescription">Signed-up</div>
+                            </div>
+
+                            <div class="one-third">
+                                <div class="value">{{ item1.amount }}</div>
+                                <div class="valuedescription">Needed</div>
+                            </div>
+
+                            <div class="one-third no-border">
+                                <div class="value">Sign up</div>
+                            </div>
+                        </div> <!-- End Card Bottom -->
+                    </div> <!-- End Card-->
+                </div> <!-- End Wrapper -->
+
+            {% if forloop.counter|divisibleby:4 %}
+                </div> <!-- End Row -->
+            {% endif %}
+        {% endfor %}
+<input id="submitButton" type="submit" class="btn btn-warning" value="Submit">
+
+    </div>
+</div>
+{% endblock %}

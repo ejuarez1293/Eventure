@@ -1,0 +1,172 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+{% if user.is_authenticated %}
+    <link rel="stylesheet" href="{% static 'css/landingPage.css' %}"/>
+
+<body>
+<!--<hr class="">-->
+<div class="container target">
+    <div class="row">
+        <div class="col-sm-10">
+             <h1 class="">Welcome,{{currentUser}}!</h1>
+
+            <a href="{% url 'CreateEvent' %}" class = "btn btn-success" role="button">Create an Event!</a>
+             <a href="{% url 'myEvents' %}" class = "btn btn-info" role="button">Hosting Events!</a>
+<br>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+  <br>
+
+        <!--/col-3-->
+<!-- <div class="col-sm-9" style="" contenteditable="false">-->
+
+<div class="panel panel-default">
+    <div class="panel-heading eventStorage"><strong>My Events</strong></div>
+    <div class='container'>
+        <div id="slickBoarder">
+            <div class='single-item'>
+
+
+<!---------ONE CARD------------------------>
+                <div>
+
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        {% for event in allEvents %}
+                        <div class="card card-inverse card-info">
+                            {% if event.eventPhoto %}
+                            <img class="card-img-top" src="{{event.eventPhoto.url}}">
+                            {% endif %}
+                            <div class="card-block">
+                                <h4 class="card-title">{{event}}</h4>
+                                <div class="card-text">{{currentUser}}</div>
+                                <h6 class="card-subtitle mb-2 text-muted"><strong>Host:</strong>{{currentUser}}</h6>
+                                <p class="card-text">Date:{{event.date}}</p>
+                                <p class="card-text">Time:{{event.time}}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="event/{{event.id}}" class = "btn btn-info" role="button">View Event!</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if forloop.counter|divisibleby:4  and forloop.counter != allEvents.count %}
+                </div>
+                <!---------ONE CARD---------------->
+                <div>
+                    {% endif %}
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><strong>Attending Events</strong></div>
+    <div class="panel-body">
+        <div class='container'>
+        <div id="slickBoarder">
+            <div class='single-item'>
+
+
+<!---------ONE CARD------------------------>
+                <div>
+
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        {% for attendee in attendees %}
+                        <div class="card card-inverse card-info">
+                            {% if attendee.eventID.eventPhoto %}
+                            <img class="card-img-top" src="{{attendee.eventID.eventPhoto.url}}">
+                            {% endif %}
+                            <div class="card-block">
+                                <h4 class="card-title">{{attendee.eventID.name}}</h4>
+                                <div class="card-text">{{attendee.name}}</div>
+                                <h6 class="card-subtitle mb-2 text-muted"><strong>Host:</strong>{{attendee.eventID.userProfile}}</h6>
+                                <p class="card-text">Date:{{attendee.eventID.location}}</p>
+                                <p class="card-text">Time:{{attendee.eventID.time}}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="event/{{attendee.eventID.id}}{{ attendee.attendeeID }}" class = "btn btn-info" role="button">View Event!</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if forloop.counter|divisibleby:4  and forloop.counter != allEvents.count %}
+                </div>
+                <!---------ONE CARD---------------->
+                <div>
+                    {% endif %}
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><strong>Upcoming Events</strong></div>
+        <div class="panel-body">
+        </div>
+    </div>
+
+<script src="{% static 'scripts/slick.min.js' %}"></script>
+<script>
+    var $mainButton = $(".main-button"),
+        $closeButton = $(".close-button"),
+        $buttonWrapper = $(".button-wrapper"),
+        $ripple = $(".ripple"),
+        $layer = $(".layered-content");
+
+    $mainButton.on("click", function(){
+        $ripple.addClass("rippling");
+        $buttonWrapper.addClass("clicked").delay(1500).queue(function(){
+            $layer.addClass("active");
+        });
+    });
+
+    $closeButton.on("click", function(){
+        $buttonWrapper.removeClass("clicked");
+        $ripple.removeClass("rippling");
+        $layer.removeClass("active");
+    });
+
+        $(document).ready(function(){
+
+        $(".single-item").slick({
+            arrows: false,
+            infinite: true,
+            slidesToShow: 1,
+            dots : false,
+            autoplay: true,
+            autoplaySpeed: 7000
+
+        });
+    });
+
+
+</script>
+
+
+
+
+
+
+</body>
+{% endblock %}
