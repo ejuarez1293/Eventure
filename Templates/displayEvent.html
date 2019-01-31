@@ -30,6 +30,75 @@
         <p>Location: <a href="https://www.google.com/maps/search/?api=1&{{address}}" target="_blank">{{eventInfo.location}}</a></p>
         <p>Date: {{ eventInfo.date }}</p>
         <p>Time: {{ eventInfo.time }}</p>
+
+         <!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 25%; width: 75%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: {lat: -34.397, lng: 150.644}
+        });
+        var geocoder = new google.maps.Geocoder();
+
+          geocodeAddress(geocoder, map);
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = "{{eventInfo.location}}"
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvBaddkYZovndoQ4dsdABoMiY6nlNOjqw&callback=initMap">
+    </script>
+  </body>
+</html>
+
+
     </div>
     <div class="container" id="rsvp_container">
         <h3 style="text-align:center">Want to attend?</h3>
@@ -64,16 +133,54 @@
     </div>
     <form enctype="multipart/form-data" method="POST" id="SigningUp">
     {% csrf_token %}
+
     <div class="container" id="bringing">
-
-        <h2>Needed</h2>
-
-        {% for item1, item2 in itemFormTuple %}
+        <h2>Bringing</h2>
+         {% for item1, item2, item3 in itemsBroughtTuple %}
             {% if forloop.counter|divisibleby:4 %}
                 <div class="row">
             {% endif %}
 
-                <div class="wrapper col-sm-3">
+                <div class="wrapper col-sm-3 nopaddingonleft">
+                    <div class="card">
+                        <div class="card__title">{{ item1.itemLinkID.name }}</div>
+                        <div class="card__description"> {{item2}} </div>
+
+                        <div class="cardbottom cardbottom--fontforeground clearfix">
+                            <div class="one-third">
+                                <div class="value">{{item1.quantity}}</div>
+                                <div class="valuedescription">Bringing</div>
+                            </div>
+
+                            <div class="one-third">
+                                <div class="value">{{item3}}</div>
+                                <div class="valuedescription">Still Need</div>
+                            </div>
+
+                            <div class="one-third no-border">
+                                <div class="value">{{ item1.itemLinkID.amount}}</div>
+                                <div class="valuedescription">Requested</div>
+                            </div>
+                        </div> <!-- End Card Bottom -->
+                    </div> <!-- End Card-->
+                </div> <!-- End Wrapper -->
+
+            {% if forloop.counter|divisibleby:4 %}
+                </div> <!-- End Row -->
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+
+    <div class="container" id="bringing">
+        <h2>Needed</h2>
+        {% for item1, item2, item3 in itemFormTuple %}
+            {% if forloop.counter|divisibleby:4 %}
+                <div class="row">
+            {% endif %}
+
+                <div class="wrapper col-sm-3 nopaddingonleft">
                     <div class="card">
                         <div class="card__title">{{ item1.name }}</div>
                         <div class="card__description"> {{item2}} </div>
@@ -85,12 +192,13 @@
                             </div>
 
                             <div class="one-third">
-                                <div class="value">{{ item1.amount }}</div>
-                                <div class="valuedescription">Needed</div>
+                                <div class="value">{{ item3}}</div>
+                                <div class="valuedescription">Still Need</div>
                             </div>
 
                             <div class="one-third no-border">
-                                <div class="value">Sign up</div>
+                                <div class="value">{{ item1.amount}}</div>
+                                <div class="valuedescription">Requested</div>
                             </div>
                         </div> <!-- End Card Bottom -->
                     </div> <!-- End Card-->

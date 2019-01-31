@@ -1,6 +1,5 @@
 #wrap{
-    border-style: solid;
-    border-color: blueviolet;
+
     float:left;
     position:relative;
     margin-bottom:1px;
@@ -8,8 +7,7 @@
     padding-right:5px;
 }
 #photo{
-    border-style: solid;
-    border-color: #e22444;
+
     float:left;
     position:relative;
     width: 225px;
@@ -23,8 +21,7 @@
 }
 
 #info{
-    border-style: solid;
-    border-color: green;
+
     float:left;
     position:relative;
     width: 459px;
@@ -36,8 +33,7 @@
 }
 
 #guests{
-    border-style: solid;
-    border-color: yellow;
+
     width: 350px;
     float:left;
     position:relative;
@@ -49,8 +45,7 @@
 .element::-webkit-scrollbar { width: 0 !important }
 
 #eventContent{
-   border-style:solid;
-   border-color:red;
+
    height:250px;
    width:69%;
    float:left;
@@ -59,8 +54,7 @@
 }
 
 #bringing{
-    border-style: solid;
-    border-color: deeppink;
+
     float:left;
     position:relative;
     padding-left: 0px;
@@ -69,8 +63,7 @@
 
 
 #rsvp_container{
-   border-style: solid;
-    border-color: greenyellow;
+
     float:left;
     position:relative;
     width:446px;
@@ -96,8 +89,7 @@
     width: 145px;
 }
 #itemList{
-    border-syle:solid;
-    border-color:red;
+
     position:relative;
     float:left;
     width: 45%;
@@ -106,22 +98,26 @@
 
 
 #itemNeedDiv{
-    border-style: solid;
-    border-color: blueviolet;
+
 }
 
 #itemNeedNameDiv{
-     border-style: solid;
-    border-color: darkred;
+
 }
 
 
 /*  Card CSS */
 
+.nopaddingonleft {
+
+    padding-left: 5px;
+
+}
+
 .wrapper {
 	padding-top: 20px;
 	padding-bottom: 20px;
-    border: 1px black solid;
+
 }
 .wrapper:focus {
 	outline: 0;
@@ -129,11 +125,11 @@
 
 .card {
 	background: white;
-	width: 270px;
+	width: 275px;
 	display: inline-block;
-	margin: auto;
-	border-radius: 19px;
-	position: relative;
+    position: relative;
+    margin: auto;
+    border-radius: 19px;
 	text-align: center;
 	box-shadow: -1px 15px 30px -12px black;
 	z-index: 9999;

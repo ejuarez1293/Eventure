@@ -33,4 +33,5 @@ urlpatterns = [
     url(r'^logout/$',views.userLogout, name='logout'),
 	url(r'^event/(\w{12})/$',views.eventHomePageView,name = 'eventHome'),
 	url(r'^event/(\w{12})/edit$', views.edit, name='eventEdit'),
+	url(r'^event/(\w{12})/createPoll$', views.createPoll, name='createPoll'),
 ]

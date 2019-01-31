@@ -28,19 +28,19 @@
         <div id="info" class="container" style="float:left">
             <h2>{{ currentEvent.name }}</h2>
             <p>Location: {{ currentEvent.location}}</p>
-            <p>Mapping:
+            <p>Date: {{ currentEvent.date }}</p>
+            <p>Time: {{ currentEvent.time }}</p>
 
-<!DOCTYPE html>
+            <!DOCTYPE html>
 <html>
   <head>
-    <title>Eventure Maps</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 50%; width: 50%;
+        height: 75%; width: 75%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -64,31 +64,21 @@
     </style>
   </head>
   <body>
-    <div id="floating-panel">
-      <input id="address" type="textbox" value="UTSA" >
-      <script>
-          var addy = "<p>{{currentEvent.Location}}}</p>"
-        //  document.write(addy);
-         // document.getElementById("address").value = addy;
-      </script>
 
-      <input id="submit" type="button" value="Display Passed Address Test">
-    </div>
     <div id="map"></div>
     <script>
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 13,
-          center: {lat: 29.424122, lng: -98.493629}
+          center: {lat: -34.397, lng: 150.644}
         });
         var geocoder = new google.maps.Geocoder();
 
           geocodeAddress(geocoder, map);
-
       }
 
       function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
+        var address = "{{currentEvent.location}}"
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === 'OK') {
             resultsMap.setCenter(results[0].geometry.location);
@@ -107,12 +97,6 @@
     </script>
   </body>
 </html>
-
-
-
-            </p>
-            <p>Date: {{ currentEvent.date }}</p>
-            <p>Time: {{ currentEvent.time }}</p>
         </div>
         <div id="buttonStuff" style="float:left">
 

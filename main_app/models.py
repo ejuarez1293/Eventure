@@ -5,7 +5,7 @@ from localflavor.us.models import USStateField
 
 
 class UserProfile(models.Model):
-	user = models.OneToOneField(User, related_name = 'user')
+	user = models.OneToOneField(User, related_name = 'user', on_delete='CASCADE')
 	id = models.AutoField(primary_key = True)
 	firstName = models.CharField(max_length = 50, default = '')
 	lastName = models.CharField(max_length = 50, default = '')
@@ -46,7 +46,7 @@ class EventInfo(models.Model):
 	)
 	
 	id = models.CharField(primary_key = True, max_length = 12, default = '')
-	userProfile = models.ForeignKey(UserProfile, null = True)
+	userProfile = models.ForeignKey(UserProfile, null = True, on_delete='CASCADE')
 	type = models.BooleanField(default = False)  #auto-set to public
 	name = models.CharField(max_length = 255, default = '')
 	location = models.CharField(max_length = 255)
@@ -66,7 +66,7 @@ class EventInfo(models.Model):
 
 class Item(models.Model):
 	itemID = models.AutoField(primary_key = True)
-	eventID = models.ForeignKey(EventInfo, null = True)
+	eventID = models.ForeignKey(EventInfo, null = True, on_delete='CASCADE')
 	name = models.CharField(max_length = 255, default = '')
 	amount = models.IntegerField(default = 0)
 	amountTaken = models.PositiveIntegerField(default=0)
@@ -91,7 +91,7 @@ class Attendee(models.Model):
 	attendeeName = models.CharField(max_length=256, default = '')
 	attendeeID = models.CharField(max_length = 8, default = '')
 	userAttendeeID = models.IntegerField(null = True)
-	eventID = models.ForeignKey(EventInfo, null = True)
+	eventID = models.ForeignKey(EventInfo, null = True, on_delete='CASCADE')
 	email = models.EmailField(max_length=256, default='')
 	RSVPStatus = models.IntegerField(choices=RSVPSTATUS, blank=True, null=True)
 	
@@ -101,12 +101,34 @@ class Attendee(models.Model):
 
 class TakenItem(models.Model):
 	itemBeingBroughtID = models.AutoField(primary_key=True)
-	attendeeID = models.ForeignKey(Attendee)
-	itemLinkID = models.ForeignKey(Item)
-	eventID = models.ForeignKey(EventInfo)
+	attendeeID = models.ForeignKey(Attendee, on_delete='CASCADE')
+	itemLinkID = models.ForeignKey(Item, on_delete='CASCADE')
+	eventID = models.ForeignKey(EventInfo, on_delete='CASCADE')
 	quantity = models.PositiveIntegerField(default=0)
 	comment = models.TextField(default='')
 
 	def __str__(self):
 		return '{} x {} is being brought by {} '.format(self.itemLinkID.name,
 		                                                self.quantity, self.attendeeID.attendeeName)
+
+
+class Poll(models.Model):
+	pollID = models.AutoField(primary_key=True)
+	question = models.CharField(max_length=200)
+	eventID = models.ForeignKey(EventInfo, null=True, on_delete='CASCADE')
+	def __str__(self):
+		return '{}'.format(self.question)
+
+class Choice(models.Model):
+	poll = models.ForeignKey(Poll, on_delete='CASCADE')
+	choice_text = models.CharField(max_length=200)
+	votes = models.IntegerField(default=0)
+	def __str__(self):
+		return '{}'.format(self.choice_text,self.poll,self.votes)
+
+class voter(models.Model):
+	poll = models.ForeignKey(Poll, on_delete='CASCADE')
+	attendeeID = models.ForeignKey(Attendee, on_delete='CASCADE')
+	
+	def __str__(self):
+		return '{}'.format(self.attendeeID,self.poll)

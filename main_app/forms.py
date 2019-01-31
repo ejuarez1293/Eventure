@@ -54,6 +54,15 @@ class takeItemForm(forms.Form):
 	bringing = None
 
 
+class broughtItemForm(forms.Form):
+	def __init__(self, initial, max_value,  *args, **kwargs):
+		super(broughtItemForm, self).__init__(*args, **kwargs)
+		self.fields['Change to'] = forms.IntegerField(
+			validators=[MinValueValidator(0), MaxValueValidator(max_value)], max_value=max_value, initial=initial)
+	
+	bringing = None
+
+
 class takeItemFormBind(forms.Form):
 	bringing = forms.IntegerField()
 
@@ -85,3 +94,19 @@ class LandingViewForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('user','id','firstName','lastName','city','state','zip',)
+
+class CreatePollForm(forms.ModelForm):
+	class Meta:
+		model = Poll
+		fields = ('question',)
+		labels = {
+			'question' : 'question'
+		}
+
+
+class PollChoiceForm(forms.ModelForm):
+	class Meta:
+		model = Choice
+		fields = ('choice_text',)
+		labels = {'choice_text' : 'choice_text'}
+

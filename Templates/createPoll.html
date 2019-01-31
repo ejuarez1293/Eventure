@@ -1,0 +1,27 @@
+{% extends "Base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<link rel="stylesheet" href="{% static 'css/createEvent.css' %}"/>
+</head>
+<body>
+    <div>
+        <form enctype="multipart/form-data" method="POST" id="createPoll">
+            {% csrf_token %}
+            {{ pollForm.as_p }}
+            {{ ChoiceFormSet.as_p }}
+
+            <input type="submit" class="btn btn-primary" value="Create Poll" style="width: 100%">
+
+
+
+        </form>
+    </div>
+
+
+{% endblock %}
+</body>

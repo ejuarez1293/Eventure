@@ -29,7 +29,7 @@ SECRET_KEY = '&wt6^kx-!#3j41r6x^)c2!^_1+0m&bs05s^p4@dq^c==wt7ir&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.24.124.155']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'Eventure.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-     'default': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bifrost_brogram',
-        'USER': 'bifrost_brogram',
-        'PASSWORD': 'YkLD6Gfa3UcRM6KR',
-        'HOST': 'easel1.fulgentcorp.com',
+        'NAME': 'Eventure',
+        'USER': 'lalo',
+        'PASSWORD': '@howdy',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -133,12 +133,10 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-#backend is setup for debug purposes
-#For email purposes
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_DEBUG = False
-#EMAIL_USE_TLS = 1
-EMAIL_HOST =  'stmp.gmail.com'
-EMAIL_HOST_USER = 'jromeutsa@gmail.com'
-EMAIL_HOST_PASSWORD = 'computerscience1'
+EMAIL_USE_TLS = True
+EMAIL_HOST =  'smtp.gmail.com'
+EMAIL_HOST_USER = 'juarez.e12@gmail.com'
+EMAIL_HOST_PASSWORD = 'ujfgxezncpsolpbc'
 EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
