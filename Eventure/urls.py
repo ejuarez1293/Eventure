@@ -18,20 +18,28 @@ from django.contrib import admin
 from main_app import views
 from django.views.static import serve
 from Eventure import settings
-from main_app.views import attendeeEventDisplay
+from main_app.views import attendeeEventDisplay, newIndex
+from django.views.generic import RedirectView
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
-	url(r'^$',views.newIndex,name='index'),
+    url(r'^$', newIndex.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^event/(\w{12})(\w{8})$', attendeeEventDisplay.as_view()),
-	url(r'^media/(?P<path>.*)$',serve , {'document_root': settings.MEDIA_ROOT, }),
-    url(r'^createEvent$', views.createEvent, name = 'CreateEvent'),
-	url(r'^landingPage$', views.landingPageView, name = 'Home'),
-	url(r'^myEventsPage$', views.myEventsPageView, name = 'myEvents'),
-	url(r'^register/$',views.register, name='registrationPage'),
-    url(r'^userLogin/$',views.userLogin,  name='userLogin'),
-	url(r'^SearchEvent/$',views.SearchEvent,  name='searchevent'),
-    url(r'^logout/$',views.userLogout, name='logout'),
-	url(r'^event/(\w{12})/$',views.eventHomePageView,name = 'eventHome'),
-	url(r'^event/(\w{12})/edit$', views.edit, name='eventEdit'),
-	url(r'^event/(\w{12})/createPoll$', views.createPoll, name='createPoll'),
+    url(r'^media/(?P<path>.*)$', serve,
+        {'document_root': settings.MEDIA_ROOT, }),
+    url(r'^createEvent$', views.createEvent, name='CreateEvent'),
+    url(r'^landingPage$', views.landingPageView, name='Home'),
+    url(r'^myEventsPage$', views.myEventsPageView, name='myEvents'),
+    url(r'^register/$', views.register, name='registrationPage'),
+    url(r'^userLogin/$', views.userLogin,  name='userLogin'),
+    url(r'^SearchEvent/$', views.SearchEvent,  name='searchevent'),
+    url(r'^logout/$', views.userLogout, name='logout'),
+    url(r'^event/(\w{12})/$', views.eventHomePageView, name='eventHome'),
+    url(r'^event/(\w{12})/edit$', views.edit, name='eventEdit'),
+    url(r'^event/(\w{12})/createPoll$', views.createPoll, name='createPoll'),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

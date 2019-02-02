@@ -18,7 +18,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'Templates')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "Templates"),
 ]
-MEDIA_DIR = os.path.join(BASE_DIR,'media')
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'Eventure.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR,],
+        'DIRS': [TEMPLATE_DIR, ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,10 +83,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Eventure',
-        'USER': 'lalo',
+        'USER': 'eventure',
         'PASSWORD': '@howdy',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '5000',
     }
 }
 
@@ -134,9 +134,8 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST =  'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'juarez.e12@gmail.com'
 EMAIL_HOST_PASSWORD = 'ujfgxezncpsolpbc'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-

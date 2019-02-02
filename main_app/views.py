@@ -342,8 +342,8 @@ def index(request):
     return render(request, 'index.html', {})
 
 
-def newIndex(request):
-    if request.method == 'GET':
+class newIndex(View):
+    def get(self, request):
         publicEvents = getAllPublicEvents()
         print(publicEvents)
         mapping = {
@@ -453,7 +453,7 @@ def userLogin(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    return redirect('/')
                 else:
                     messages.info(request, 'Sorry, this uses is not in our databse')
                     return redirect('userLogin')
